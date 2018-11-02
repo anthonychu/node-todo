@@ -128,7 +128,7 @@ Before you can deploy your application in Azure, you need to make the applicatio
 
 ### Deploy the application to Azure App Service
 
-1. Retrieve information about your container registry and image into variables.
+1. Retrieve information about your container registry and image, and store them into variables.
 
     ```
     ACR_SERVER=$(az acr show -n <registryname> --query loginServer -o tsv)
@@ -137,7 +137,7 @@ Before you can deploy your application in Azure, you need to make the applicatio
     IMAGE_NAME=$ACR_SERVER/nodetodo:latest
     ```
 
-    > Note: These commands are in bash format. They may differ slightly in other shells.
+    > Note: These commands are in bash format. They may differ slightly in other environments.
 
 1. Create an Azure App Service plan with a unique name. An App Service plan can host one or more applications.
 
@@ -151,7 +151,7 @@ Before you can deploy your application in Azure, you need to make the applicatio
     az webapp create -n <webappname> -g node-todo-lab -p <planname> --deployment-container-image-name $IMAGE_NAME
     ```
 
-1. Configure the web app with the credentials to retrieve the image from ACR.
+1. Configure the web app with the credentials to pull the image from ACR.
 
     ```
     az webapp config container set -n <webappname> -g node-todo-lab -i $IMAGE_NAME -u $ACR_USERNAME -p $ACR_PASSWORD
