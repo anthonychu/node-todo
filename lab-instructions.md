@@ -12,12 +12,12 @@
 
 The following software is required to build this tutorial.
 
-* Git
-* Node.js (Version 8 or higher)
-* Docker Desktop
-* Azure CLI
-* VS Code (recommended)
-    - Azure Tools extension
+* [Git](https://git-scm.com/downloads)
+* [Node.js](https://nodejs.org/en/download/) (Version 8 or higher)
+* [Docker Desktop](https://www.docker.com/products/docker-desktop)
+* [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest&WT.mc_id=containersworkshop-github-antchu)
+* [VS Code](https://code.visualstudio.com/download?WT.mc_id=containersworkshop-github-antchu) (recommended)
+    - [Azure Tools extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-node-azure-pack&WT.mc_id=containersworkshop-github-antchu)
 
 
 ## Run the application locally
