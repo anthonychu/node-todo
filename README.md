@@ -196,7 +196,7 @@ Before you can deploy your application in Azure, you need to make the applicatio
     ![Cosmos DB Data Explorer](media/data-explorer.png)
 
 
-## Bonus
+## Bonus exercises
 
 ### Deploy app to Azure Container Instances
 
@@ -205,6 +205,8 @@ Azure Container Instances is another way to deploy containers in Azure. Use a co
 ```
 az container create -g node-todo-lab -n $ACI_NAME --image $IMAGE_NAME --registry-login-server $ACR_SERVER --registry-username $ACR_USERNAME --registry-password $ACR_PASSWORD --ip-address public --ports 80 -e "PORT=80" "MONGODB_URL=$CONNECTION_STRING"
 ```
+
+Learn more about [Azure Container Instances](https://docs.microsoft.com/en-us/azure/container-instances/?WT.mc_id=containersworkshop-github-antchu)
 
 ### Geo-replicate and scale Cosmos DB
 
@@ -216,7 +218,6 @@ Azure Cosmos DB makes it easy to scale your database to handle high volumes and 
 
 ## Summary
 
-Congratulations! You have successfully containerized and deployed an application to Azure App Service and Azure Cosmos DB!
-
+Congratulations! You have successfully containerized and deployed an application to [Azure App Service](https://docs.microsoft.com/en-us/azure/app-service/?WT.mc_id=containersworkshop-github-antchu) and [Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/?WT.mc_id=containersworkshop-github-antchu)!
 
 _Lab based on the [Node Todo App by scotch.io](https://github.com/scotch-io/node-todo)_
