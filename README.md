@@ -218,3 +218,5 @@ Azure Cosmos DB makes it easy to scale your database to handle high volumes and 
 
 Congratulations! You have successfully containerized and deployed an application to Azure App Service and Azure Cosmos DB!
 
+
+_Lab based on the [Node Todo App by scotch.io](https://github.com/scotch-io/node-todo)_
