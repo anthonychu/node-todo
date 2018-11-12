@@ -56,7 +56,7 @@ The application requires access to a MongoDB server when it is run. You'll use D
 1. In the directory containing **docker-compose.yml**, run the following command that will build and run the application:
 
     ```
-    docker-compose up -d
+    docker-compose up --build -d
     ```
 
 1. Open a browser and navigate to the application at `http://localhost:8080`.
@@ -108,13 +108,13 @@ Before you can deploy your application in Azure, you need to make the applicatio
 
 ### Build and push the Docker image to ACR
 
-1. Build the Docker image using ACR. This command tags the image as `nodetodo:latest` and pushes it to your ACR.
+1. Build the Docker image using ACR. This command tags the image as `nodetodo:0.1` and pushes it to your ACR.
 
     ```
-    az acr build -t nodetodo:latest -r $REGISTRY_NAME .
+    az acr build -t nodetodo:0.1 -r $REGISTRY_NAME .
     ```
 
-1. Confirm that `nodetodo:latest` exists in your Azure Container Registry:
+1. Confirm that `nodetodo:0.1` exists in your Azure Container Registry:
 
     ```
     az acr repository show-tags -n $REGISTRY_NAME --repository nodetodo
@@ -141,7 +141,7 @@ Before you can deploy your application in Azure, you need to make the applicatio
     ACR_SERVER=$(az acr show -n $REGISTRY_NAME --query loginServer -o tsv)
     ACR_USERNAME=$(az acr credential show -n $REGISTRY_NAME --query username -o tsv)
     ACR_PASSWORD=$(az acr credential show -n $REGISTRY_NAME --query passwords[0].value -o tsv)
-    IMAGE_NAME=$ACR_SERVER/nodetodo:latest
+    IMAGE_NAME=$ACR_SERVER/nodetodo:0.1
     ```
 
     > Note: These commands are in bash syntax. They may differ slightly in other environments.
@@ -196,7 +196,70 @@ Before you can deploy your application in Azure, you need to make the applicatio
     ![Cosmos DB Data Explorer](media/data-explorer.png)
 
 
+## Update the application with deployment slots
+
+### Modify application and build a new image
+
+1. Open **public/index.html** and make a modification to the application, such as changing its background color:
+
+    ```html
+    <body ng-controller="mainController" style="background-color: yellow">
+    ```
+
+1. Build a new Docker image using ACR. This command tags the image as `nodetodo:0.2` and pushes it to your ACR.
+
+    ```
+    az acr build -t nodetodo:0.2 -r $REGISTRY_NAME .
+    ```
+
+1. Confirm that `nodetodo:0.2` exists in your Azure Container Registry:
+
+    ```
+    az acr repository show-tags -n $REGISTRY_NAME --repository nodetodo
+    ```
+
+### Create a staging deployment slot in the web app
+
+Instead of deploying the updated application directly to the production web app in App Service, you can first deploy it to a staging slot where you can test it before swapping it into the production slot.
+
+1. Create a new deployment slot named **staging** in the web app, copying over the configuration from the production slot.
+
+    ```
+    az webapp deployment slot create  -n $WEB_APP_NAME -g node-todo-lab -s staging --configuration-source $WEB_APP_NAME
+    ```
+
+1. Get the name of the new image and deploy it as a container to the staging slot.
+
+    ```
+    NEW_IMAGE_NAME=$ACR_SERVER/nodetodo:0.2
+    az webapp config container set -n $WEB_APP_NAME -g node-todo-lab -i $NEW_IMAGE_NAME -u $ACR_USERNAME -p $ACR_PASSWORD -s staging
+    ```
+
+1. Get the staging slot URL and use a browser to ensure the new changes are visible in the staging slot.
+
+    ```
+    echo https://$(az webapp show -n $WEB_APP_NAME -g node-todo-lab -s staging --query defaultHostName -o tsv)/
+    ```
+
+1. Once you are satisfied that your app in the staging slot is working properly, swap it with the production slot.
+
+    ```
+    az webapp deployment slot swap  -n $WEB_APP_NAME -g node-todo-lab -s staging --target-slot production
+    ```
+
+1. Use your browser to confirm that the production slot now contains the new version, and the staging slot now contains the originally deployed application.
+
+
 ## Bonus exercises
+
+### App Service "Testing in Production"
+
+Deployments slots can also be used to split traffic between different versions of an app. This can be used for A/B testing and canary releases.
+
+To split traffic between different deployment slots, use the "Testing in Production" feature of App Service. Give it a try.
+
+![Testing in production](media/testing-in-production.png)
+
 
 ### Deploy app to Azure Container Instances
 
