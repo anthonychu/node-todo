@@ -1,5 +1,7 @@
 # Deploy a containerized web app to Azure App Service
 
+![Build status](https://dev.azure.com/devrel/anthony-demos/_apis/build/status/node-todo%20Build)
+
 ## Introduction
 
 ### Technologies used
