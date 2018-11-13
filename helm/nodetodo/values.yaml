@@ -1,0 +1,24 @@
+# Default values for node.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+image:
+  pullPolicy: IfNotPresent
+app:
+  mongoUrl: mongodb://localhost:27017/todos
+service:
+  name: nodetodo
+  type: LoadBalancer
+  externalPort: 8080
+  internalPort: 8080
+resources:
+  limits:
+    cpu: 1
+    memory: 512Mi
+  requests:
+    cpu: 500m
+    memory: 256Mi
+ingress:
+  enabled: false
+replicaCount: 1
+buildID: "1"
