@@ -1,6 +1,6 @@
 # Deploy a containerized web app to Azure App Service
 
-![Build status](https://dev.azure.com/devrel/anthony-demos/_apis/build/status/node-todo%20Build)
+[![Build status](https://dev.azure.com/devrel/anthony-demos/_apis/build/status/node-todo%20Build)](https://dev.azure.com/devrel/anthony-demos/_build/latest?definitionId=5)
 
 ## Introduction
 
